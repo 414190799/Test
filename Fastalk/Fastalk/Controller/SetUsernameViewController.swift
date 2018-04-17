@@ -74,6 +74,19 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
         //Config.setUsername(self.username!)
     }
     
+    private func uploadFirebase() {
+        let storage = Storage.storage()
+        let storageRef = storage.reference().child("\(email!)")
+        if let uploadData = UIImagePNGRepresentation(self.photo.image!) {
+            storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
+                    print(error)
+                    return
+                }
+            })
+        }
+    }
+    
     @objc func checkIfUserExists() {
         self.alertController?.message = "Checking..."
         let username = usernameTextField!.text
@@ -100,32 +113,19 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        image.allowsEditing = false
+        image.allowsEditing = true
         self.present(image, animated: true){
         }
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        photo.image = image
-        self.dismiss(animated: true, completion: nil)
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        var data = Data()
-        data = UIImageJPEGRepresentation(photo.image!, 0.8)!
-        let filePath = "\(Auth.auth().currentUser!.uid)/\("userPhoto")"
-        let metaData = StorageMetadata()
-        metaData.contentType = "image/jpg"
-        storageRef.child(filePath).putData(data, metadata: metaData){(metaData,error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }else{
-                //store downloadURL
-                let downloadURL = metaData!.downloadURL()!.absoluteString
-            }
-            
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            photo.image = image
         }
+        self.dismiss(animated: true, completion: nil)
+        uploadFirebase()
     }
+    
     /*
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
