@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseStorage
 
 class SetUsernameViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     private var usersRef = Constants.refs.databaseUsers
@@ -19,19 +18,18 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var labelUsername: UILabel!
     @IBOutlet weak var labelEmail: UILabel!
     @IBOutlet weak var buttonSet: UIButton!
-    @IBOutlet weak var buttonDone: UIButton!
     @IBOutlet weak var photo: UIImageView!
     
     var username: String?
+    var URL: String?
     let userId = Auth.auth().currentUser?.uid
     let email = Auth.auth().currentUser?.email
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         labelEmail.text = self.email
         self.title = "Complete Profile"
-        self.buttonDone.isEnabled = false
+        //self.buttonDone.isEnabled = false
     }
     
     // TODO: - Require username
@@ -51,8 +49,7 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
         let OKAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             self.username = self.usernameTextField!.text
             self.labelUsername.text = self.username
-            self.updateUserInfo()
-            self.buttonDone.isEnabled = true
+           // self.buttonDone.isEnabled = true
             self.buttonSet.isHidden = true
         })
         
@@ -67,7 +64,8 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
     private func updateUserInfo() {
         let userItem = [
             "username": self.username!,
-            "email": self.email
+            "email": self.email,
+            "URL": self.URL!
         ]
         self.usersRef.child(self.userId!).setValue(userItem)
         
@@ -83,6 +81,7 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
                     print(error)
                     return
                 }
+                self.URL = metadata?.downloadURL()?.absoluteString
             })
         }
     }
@@ -126,6 +125,9 @@ class SetUsernameViewController: UIViewController, UINavigationControllerDelegat
         uploadFirebase()
     }
     
+    @IBAction func buttonDone(_ sender: Any) {
+        self.updateUserInfo()
+    }
     /*
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

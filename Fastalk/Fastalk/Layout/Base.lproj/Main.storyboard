@@ -420,20 +420,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DKh-3h-ibU">
-                                <rect key="frame" x="177" y="562" width="37" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Done"/>
-                                <connections>
-                                    <segue destination="xog-aP-fzu" kind="show" id="NS4-D7-ZTv"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Un-1m-1dG">
                                 <rect key="frame" x="136" y="433" width="102" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Upload Picture"/>
                                 <connections>
                                     <action selector="uploadPic:" destination="q9P-3I-RK8" eventType="touchUpInside" id="6ML-yw-Vpv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DKh-3h-ibU">
+                                <rect key="frame" x="169" y="533" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="buttonDone:" destination="q9P-3I-RK8" eventType="touchUpInside" id="wg0-fx-8Qm"/>
+                                    <segue destination="xog-aP-fzu" kind="show" id="NS4-D7-ZTv"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -457,7 +458,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="XS8-8v-sJY"/>
                     <connections>
-                        <outlet property="buttonDone" destination="DKh-3h-ibU" id="25C-AJ-KKm"/>
                         <outlet property="buttonSet" destination="c50-8y-0eT" id="9s6-Nm-1hj"/>
                         <outlet property="labelEmail" destination="YOz-sZ-xFv" id="8Tr-YM-bDR"/>
                         <outlet property="labelUsername" destination="Efu-6z-rlk" id="rpJ-6r-MIK"/>
